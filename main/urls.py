@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+
 # Three modules for swagger:
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
@@ -41,6 +42,6 @@ urlpatterns = [
     path("swagger/", schema_view.with_ui("swagger", cache_timeout=0),
          name="schema-swagger-ui"),
     path("redoc/", schema_view.with_ui("redoc",
-         cache_timeout=0), name="schemaredoc"),
-    path('__debug__/', include('debug_toolbar.urls')),
+         cache_timeout=0), name="schemaredoc"), 
+    path('__debug__/', include('debug_toolbar.urls')),      
 ]
