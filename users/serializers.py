@@ -7,6 +7,8 @@ from rest_framework.validators import UniqueValidator #girilen mail adresinin un
 
 from django.contrib.auth.password_validation import validate_password #django ile default gelen password validasyonlarını yapar.
 
+from dj_rest_auth.serializers import TokenSerializer
+
 class RegisterSerializers(serializers.ModelSerializer):
 
         #email adreside default olarak uniq değil uniq olması için serializersı değiştiriyoruz.
@@ -58,3 +60,27 @@ class RegisterSerializers(serializers.ModelSerializer):
             user.set_password(password)#oluşan kullanıcıya passwordu ekleriz.
             user.save()# database e göndeririz.
             return user
+
+
+
+
+
+# kullanıcı giriş yaptığında frontend kısmına kullanıcı bilgilerini dönüyoruz
+class UserTokenSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User #user modelini kullanıyorum.
+        fields = ("id", "first_name", "last_name", "email")
+    
+    
+class CustomTokenSerializer(TokenSerializer): #custom Serializers yazıyoruz. Sadece get methodu var.
+    user = UserTokenSerializer(read_only = True) #TokenSerializer inherit edirek user bilgisini çekiyoruz.
+    
+    class Meta(TokenSerializer.Meta):
+        fields = ("key", "user") # geri dönüşü sadece id ve user bilgileri olur
+        
+
+#customToken Serializer yazarsak base.py ye bunu tanıtırız.
+# REST_AUTH_SERIALIZERS = {
+#     'TOKEN_SERIALIZER': 'users.serializers.CustomTokenSerializer',
+    
+# }
