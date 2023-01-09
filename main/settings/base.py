@@ -39,11 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    #myapp
+    'users',
+
+
 
     #3. PARTY LIB
     'drf_yasg',
     'rest_framework',
     #'debug_toolbar', #dev.py sayfasında tanıttık.
+
+    # django rest auth paketi ile gelen uygulamalar.
+    'rest_framework.authtoken',
+    'dj_rest_auth',
    
     
 ]
@@ -185,4 +193,11 @@ LOGGING = {
             #  will not be handled by the django logger.
         },
     },
+}
+
+
+REST_FRAMEWORK ={
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
 }
